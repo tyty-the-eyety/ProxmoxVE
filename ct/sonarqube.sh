@@ -105,6 +105,14 @@ else
 fi
 }
 
+function description() {
+  msg_info "Completed Successfully!\n"
+  msg_info "Container Login: admin"
+  msg_info "Container Password: adminpass"
+  msg_info "SonarQube WebUI: http://${IP}:9000"
+  msg_info "SonarQube Default Credentials: admin/admin"
+}
+
 start
 build_container
 description

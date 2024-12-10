@@ -21,6 +21,12 @@ $STD apt-get install -y postgresql
 $STD apt-get install -y postgresql-contrib
 msg_ok "Installed Dependencies"
 
+msg_info "Creating admin user"
+useradd -m -s /bin/bash admin
+echo "admin:adminpass" | chpasswd
+usermod -aG sudo admin
+msg_ok "Created admin user"
+
 msg_info "Installing Java 17"
 $STD apt-get install -y openjdk-17-jdk
 msg_ok "Installed Java 17"
