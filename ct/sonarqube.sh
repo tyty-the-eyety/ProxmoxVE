@@ -28,6 +28,16 @@ variables
 color
 catch_errors
 
+msg_info "Host System Requirements"
+cat << EOF
+SonarQube requires the following settings on the Proxmox host:
+vm.max_map_count=262144
+fs.file-max=65536
+
+These will be configured during installation.
+EOF
+msg_ok "Checked host requirements"
+
 function default_settings() {
   CT_TYPE="1"
   PW=""

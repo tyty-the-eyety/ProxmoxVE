@@ -48,17 +48,26 @@ chown -R sonarqube:sonarqube /opt/sonarqube
 echo "${RELEASE}" >/opt/${APPLICATION}_version.txt
 
 msg_info "Configuring System Limits"
-# Add sysctl settings
-echo "vm.max_map_count=262144" > /etc/sysctl.d/99-sonarqube.conf
-echo "fs.file-max=65536" >> /etc/sysctl.d/99-sonarqube.conf
-$STD sysctl -p /etc/sysctl.d/99-sonarqube.conf || msg_error "Failed to apply sysctl settings"
-
-# Add security limits
+# Add security limits only
 cat > /etc/security/limits.d/99-sonarqube.conf << EOF || msg_error "Failed to create limits file"
 sonarqube   -   nofile   65536
 sonarqube   -   nproc    4096
 EOF
 msg_ok "Configured System Limits"
+
+msg_info "Creating Host System Configuration Instructions"
+cat > /root/sonarqube-host-setup.txt << EOF
+### Important: SonarQube Host System Requirements ###
+Please add the following settings to your Proxmox host's /etc/sysctl.conf:
+
+vm.max_map_count=262144
+fs.file-max=65536
+
+Then run: sysctl -p
+
+These settings are required for SonarQube to function properly.
+EOF
+msg_info "Host system configuration instructions saved to /root/sonarqube-host-setup.txt"
 
 msg_info "Configuring SonarQube"
 cat <<EOF >/opt/sonarqube/conf/sonar.properties
