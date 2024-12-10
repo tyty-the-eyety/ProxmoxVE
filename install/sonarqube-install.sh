@@ -48,16 +48,17 @@ chown -R sonarqube:sonarqube /opt/sonarqube
 echo "${RELEASE}" >/opt/${APPLICATION}_version.txt
 
 msg_info "Configuring System Limits"
-cat <<EOF >>/etc/sysctl.conf
-vm.max_map_count=262144
-fs.file-max=65536
-EOF
-$STD sysctl -p
+# Add sysctl settings
+echo "vm.max_map_count=262144" > /etc/sysctl.d/99-sonarqube.conf
+echo "fs.file-max=65536" >> /etc/sysctl.d/99-sonarqube.conf
+$STD sysctl -p /etc/sysctl.d/99-sonarqube.conf || msg_error "Failed to apply sysctl settings"
 
-cat <<EOF >>/etc/security/limits.conf
+# Add security limits
+cat > /etc/security/limits.d/99-sonarqube.conf << EOF || msg_error "Failed to create limits file"
 sonarqube   -   nofile   65536
 sonarqube   -   nproc    4096
 EOF
+msg_ok "Configured System Limits"
 
 msg_info "Configuring SonarQube"
 cat <<EOF >/opt/sonarqube/conf/sonar.properties
