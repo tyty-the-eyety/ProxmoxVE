@@ -114,5 +114,5 @@ description
 
 msg_ok "Completed Successfully!\n"
 echo -e "${APP} should be reachable by going to the following URL.
-         ${BL}$http://${IP}:9000 
-		 SonarQube Default Credentials: admin/admin \n"
+         $http://${IP}:9000 
+		 ${BL}SonarQube Default Credentials: admin/admin${CL} \n"
