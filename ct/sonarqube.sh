@@ -64,6 +64,8 @@ function default_settings() {
 
 function update_script() {
 header_info
+check_container_storage
+check_container_resources
 if [[ ! -d /opt/sonarqube ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
 
 msg_info "Stopping ${APP}"
@@ -116,3 +118,7 @@ function description() {
 start
 build_container
 description
+
+msg_ok "Completed Successfully!\n"
+echo -e "${APP} should be reachable by going to the following URL.
+         ${BL}http://${IP}:9000 \n SonarQube Default Credentials: admin/admin"
