@@ -41,7 +41,6 @@ wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-${VERS
 unzip -q sonarqube-${VERSION}.zip
 mv sonarqube-${VERSION} sonarqube
 rm sonarqube-${VERSION}.zip
-rm sonarqube-${VERSION}.zip
 
 # Create sonarqube user
 useradd -r -M -d /opt/sonarqube -s /sbin/nologin sonarqube
