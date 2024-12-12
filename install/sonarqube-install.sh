@@ -77,13 +77,12 @@ sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
 sonar.web.javaAdditionalOpts=-server
 sonar.search.javaOpts=-Xmx512m -Xms512m -XX:MaxDirectMemorySize=256m -XX:+HeapDumpOnOutOfMemoryError
 EOF
-
+msg_ok "Configured SonarQube"
 msg_info "Creating Service"
 cat <<EOF >/etc/systemd/system/sonarqube.service
 [Unit]
 Description=SonarQube service
 After=syslog.target network.target postgresql.service
-
 [Service]
 Type=forking
 ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
@@ -93,11 +92,9 @@ Group=sonarqube
 Restart=always
 LimitNOFILE=65536
 LimitNPROC=4096
-
 [Install]
 WantedBy=multi-user.target
 EOF
-
 systemctl daemon-reload
 systemctl enable --now sonarqube
 msg_ok "Created Service"
